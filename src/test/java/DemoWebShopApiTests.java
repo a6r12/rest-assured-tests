@@ -1,5 +1,7 @@
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -14,6 +16,7 @@ public class DemoWebShopApiTests {
     }
 
     @Test
+    @Disabled
     void updateBookQuantityCartTest() {
 
         Integer bookQuantity = 18;
@@ -39,9 +42,12 @@ public class DemoWebShopApiTests {
     void addToCartTest() {
 
         given()
+                .filter(new AllureRestAssured())
+                .log().uri()
                 .when()
                 .post("addproducttocart/catalog/13/1/1")
                 .then()
+                .log().status()
                 .statusCode(200)
                 .body("updatetopcartsectionhtml", is("(1)"));
 
