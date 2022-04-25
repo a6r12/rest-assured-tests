@@ -1,7 +1,10 @@
+package tests;
+
 import io.restassured.http.ContentType;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static listeners.CustomAllureListener.withCustomTemplates;
 import static org.hamcrest.Matchers.*;
 
 public class RestAssuredTests {
@@ -11,6 +14,7 @@ public class RestAssuredTests {
     @Test
     void listUsersTest() {
         given()
+                .filter(withCustomTemplates())
                 .when()
                 .get(baseUrl + "api/users?page=2")
                 .then()
@@ -22,6 +26,7 @@ public class RestAssuredTests {
     void createUserTest() {
         String jsonString = "{\"name\": \"Artem\", \"job\": \"QAEngineer\"}";
         given()
+                .filter(withCustomTemplates())
                 .body(jsonString)
                 .contentType(ContentType.JSON)
                 .when()
@@ -37,6 +42,7 @@ public class RestAssuredTests {
     void updateUserTest() {
         String jsonString = "{\"name\": \"Artem\", \"job\": \"QAEngineer\"}";
         given()
+                .filter(withCustomTemplates())
                 .body(jsonString)
                 .contentType(ContentType.JSON)
                 .when()
@@ -49,6 +55,7 @@ public class RestAssuredTests {
     @Test
     void deleteUserTest() {
         given()
+                .filter(withCustomTemplates())
                 .when()
                 .delete(baseUrl + "api/users/6")
                 .then()
@@ -59,6 +66,7 @@ public class RestAssuredTests {
     void errorRegisterUserTest() {
         String jsonString = "{\"emil\": \"sydneyy@fife\"}";
         given()
+                .filter(withCustomTemplates())
                 .body(jsonString)
                 .contentType(ContentType.JSON)
                 .when()
