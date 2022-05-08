@@ -1,15 +1,45 @@
 package tests;
 
 import io.restassured.http.ContentType;
+import models.ClientProperties;
+import models.CreateUserResponse;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static listeners.CustomAllureListener.withCustomTemplates;
-import static org.hamcrest.Matchers.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 
 public class RestAssuredTests {
 
     String baseUrl = "https://reqres.in/";
+
+    @Test
+    void createUserTest() {
+        ClientProperties properties = new ClientProperties();
+        properties.setName("katana_sword_party");
+        properties.setJob("QA Engineer");
+
+        CreateUserResponse createUserResponse =
+                given()
+                        .filter(withCustomTemplates())
+                        .body(properties)
+                        .contentType(ContentType.JSON)
+                        .when()
+                        .post(baseUrl + "api/users")
+                        .then()
+                        .statusCode(201)
+                        .body(matchesJsonSchemaInClasspath("schemas/CreateUser_generate_schema.json"))
+                        .extract().as(CreateUserResponse.class);
+
+
+        assertThat(createUserResponse.getName()).isEqualTo("katana_sword_party");
+        assertThat(createUserResponse.getJob()).isEqualTo("QA Engineer");
+        assertThat(createUserResponse.getId()).hasSizeGreaterThan(1);
+        assertThat(createUserResponse.getCreatedAt()).isNotNull();
+    }
 
     @Test
     void listUsersTest() {
@@ -23,33 +53,20 @@ public class RestAssuredTests {
     }
 
     @Test
-    void createUserTest() {
-        String jsonString = "{\"name\": \"Artem\", \"job\": \"QAEngineer\"}";
-        given()
-                .filter(withCustomTemplates())
-                .body(jsonString)
-                .contentType(ContentType.JSON)
-                .when()
-                .post(baseUrl + "api/users")
-                .then()
-                .statusCode(201)
-                .body("name", equalTo("Artem"))
-                .body("job", equalTo("QAEngineer"))
-                .body("createdAt", is(notNullValue()));
-    }
-
-    @Test
     void updateUserTest() {
-        String jsonString = "{\"name\": \"Artem\", \"job\": \"QAEngineer\"}";
+        ClientProperties properties = new ClientProperties();
+        properties.setName("katana_sword_party");
+        properties.setJob("QA Engineer");
+
         given()
                 .filter(withCustomTemplates())
-                .body(jsonString)
+                .body(properties)
                 .contentType(ContentType.JSON)
                 .when()
                 .put(baseUrl + "api/users/6")
                 .then()
                 .statusCode(200)
-                .body("name", equalTo("Artem"));
+                .body("name", equalTo("katana_sword_party"));
     }
 
     @Test

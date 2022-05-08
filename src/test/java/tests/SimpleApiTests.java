@@ -10,7 +10,7 @@ import static listeners.CustomAllureListener.withCustomTemplates;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 
-public class DemoWebShopApiTests {
+public class SimpleApiTests {
 
     @BeforeEach
     void beforeEach() {
