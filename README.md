@@ -29,7 +29,7 @@
 - Редактирование колличества товара в корзине
 
 ## :japanese_goblin: Сборка в Jenkins
-### <a target="_blank" href="https://jenkins.autotests.cloud/job/011-katana_sword_party-13-autotests/">Сборка в Jenkins</a>
+### <a target="_blank" href="https://jenkins.autotests.cloud/job/011-katana_sword_party-20-api-autotests/">Сборка в Jenkins</a>
 <p align="center">
 <img title="Jenkins Dashboard" src="images/screenshots/jenkins-dashboard.png">
 </p>
