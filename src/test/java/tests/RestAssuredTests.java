@@ -22,17 +22,16 @@ public class RestAssuredTests {
         properties.setName("katana_sword_party");
         properties.setJob("QA Engineer");
 
-        CreateUserResponse createUserResponse =
-                given()
-                        .filter(withCustomTemplates())
-                        .body(properties)
-                        .contentType(ContentType.JSON)
-                        .when()
-                        .post(baseUrl + "api/users")
-                        .then()
-                        .statusCode(201)
-                        .body(matchesJsonSchemaInClasspath("schemas/CreateUser_generate_schema.json"))
-                        .extract().as(CreateUserResponse.class);
+        CreateUserResponse createUserResponse = given()
+                .filter(withCustomTemplates())
+                .body(properties)
+                .contentType(ContentType.JSON)
+                .when()
+                .post(baseUrl + "api/users")
+                .then()
+                .statusCode(201)
+                .body(matchesJsonSchemaInClasspath("schemas/CreateUser_generate_schema.json"))
+                .extract().as(CreateUserResponse.class);
 
 
         assertThat(createUserResponse.getName()).isEqualTo("katana_sword_party");

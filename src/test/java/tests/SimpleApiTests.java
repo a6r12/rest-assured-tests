@@ -23,19 +23,18 @@ public class SimpleApiTests {
 
         Integer bookQuantity = 18;
 
-        String response =
-                given()
-                        .filter(withCustomTemplates())
-                        .when()
-                        .cookie("Nop.customer=45b9315b-73a3-46f2-8a9a-493c30e3cad1;" +
-                                "ARRAffinity=1818b4c81d905377ced20e7ae987703a674897394db6e97dc1316168f754a687")
-                        .contentType("multipart/form-data")
-                        .multiPart("itemquantity2361822", bookQuantity)
-                        .multiPart("updatecart", "Update shopping cart")
-                        .post("cart")
-                        .then()
-                        .statusCode(200)
-                        .extract().response().asString();
+        String response = given()
+                .filter(withCustomTemplates())
+                .when()
+                .cookie("Nop.customer=45b9315b-73a3-46f2-8a9a-493c30e3cad1;" +
+                        "ARRAffinity=1818b4c81d905377ced20e7ae987703a674897394db6e97dc1316168f754a687")
+                .contentType("multipart/form-data")
+                .multiPart("itemquantity2361822", bookQuantity)
+                .multiPart("updatecart", "Update shopping cart")
+                .post("cart")
+                .then()
+                .statusCode(200)
+                .extract().response().asString();
 
         assertThat(response).contains("class=\"items\">" + bookQuantity + " item(s)</a> in your cart.");
 
